@@ -31,6 +31,13 @@ namespace Reactivities.API
                 {
                     opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
                 });
+            
+            //This adds the CORS policy Between the API and the Client Side App 
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+            });
 
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -49,6 +56,7 @@ namespace Reactivities.API
             }
 
           //  app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }
